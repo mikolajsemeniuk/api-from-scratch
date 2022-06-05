@@ -19,6 +19,7 @@ func Validate(input interface{}) (err error) {
 
 	for i := 0; i < value.NumField(); i++ {
 		name := kind.Field(i).Name
+		tag := kind.Field(i).Tag
 		field := value.Field(i)
 
 		if field.Kind() == reflect.Ptr && field.IsNil() {
@@ -27,17 +28,17 @@ func Validate(input interface{}) (err error) {
 
 		switch data := field.Interface().(type) {
 		case string:
-			err = validateString(kind.Field(i).Tag.Get("re"), data, name)
+			err = validateString(tag.Get("re"), data, name)
 		case *string:
-			err = validateString(kind.Field(i).Tag.Get("re"), *data, name)
+			err = validateString(tag.Get("re"), *data, name)
 		case float32:
-			err = validateFloat32(kind.Field(i).Tag.Get("range"), data, name)
+			err = validateFloat32(tag.Get("range"), data, name)
 		case *float32:
-			err = validateFloat32(kind.Field(i).Tag.Get("range"), *data, name)
+			err = validateFloat32(tag.Get("range"), *data, name)
 		case time.Time:
-			err = validateTime(kind.Field(i).Tag.Get("period"), data, name)
+			err = validateTime(tag.Get("period"), data, name)
 		case *time.Time:
-			err = validateTime(kind.Field(i).Tag.Get("period"), *data, name)
+			err = validateTime(tag.Get("period"), *data, name)
 		default:
 			err = fmt.Errorf("unsupported datatype")
 		}
