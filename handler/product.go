@@ -15,7 +15,11 @@ func (h *ProductHandler) List(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ProductHandler) Read(w http.ResponseWriter, r *http.Request) {
-	params := r.Context().Value(router.ContextParamsKey).([]string)
+	params, ok := r.Context().Value(router.ContextParamsKey).([]string)
+	if !ok {
+		http.Error(w, "cannot convert params to []string", http.StatusBadRequest)
+		return
+	}
 	w.Write([]byte("Product read: " + params[0]))
 }
 
@@ -58,7 +62,12 @@ func (*ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 }
 
 func (*ProductHandler) Remove(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
+	params, ok := r.Context().Value(router.ContextParamsKey).([]string)
+	if !ok {
+		http.Error(w, "cannot convert params to []string", http.StatusBadRequest)
+		return
+	}
+	w.Write([]byte("Product read: " + params[0]))
 }
 
 func NewProductHandler() Handler {
