@@ -39,8 +39,10 @@ func Validate(input interface{}) (err error) {
 			err = validateTime(tag.Get("period"), data, name)
 		case *time.Time:
 			err = validateTime(tag.Get("period"), *data, name)
-		default:
-			err = fmt.Errorf("unsupported datatype")
+		}
+
+		if field.Kind() == reflect.Struct {
+			err = Validate(field.Interface())
 		}
 
 		if err != nil {
