@@ -1,3 +1,6 @@
 package storage
 
-type Storage interface{}
+type Storage interface {
+	Read()
+	Write()
+}

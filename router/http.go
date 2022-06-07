@@ -34,7 +34,7 @@ func (r *HTTPRouter) Handler(writer http.ResponseWriter, request *http.Request) 
 		re := regexp.MustCompile(route.Pattern)
 		matches := re.FindAllStringSubmatch(url, -1)
 
-		if len(matches) == 0 {
+		if len(matches) != 1 {
 			continue
 		}
 
