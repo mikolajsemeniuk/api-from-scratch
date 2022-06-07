@@ -44,13 +44,10 @@ func (*ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 func (*ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 	var input struct {
-		// Name        *string    `json:"name,omitempty"        re:"^.{4,8}$"`
-		// Description *string    `json:"description,omitempty" re:"^.{5,25}$"`
-		Price *float32 `json:"price,omitempty"       range:",300"`
-		// Available   *time.Time `json:"available,omitempty"   period:"-2years+3months,+7days"`
-		One struct {
-			Price *float32 `json:"price,omitempty"       range:",3"`
-		} `json:"one"`
+		Name        *string    `json:"name,omitempty"        re:"^.{4,8}$"`
+		Description *string    `json:"description,omitempty" re:"^.{5,25}$"`
+		Price       *float32   `json:"price,omitempty"       range:",300"`
+		Available   *time.Time `json:"available,omitempty"   period:"-2years+3months,+7days"`
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
